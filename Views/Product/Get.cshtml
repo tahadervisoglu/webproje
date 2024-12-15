@@ -1,0 +1,75 @@
+@model StoreApp.Models.Product
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <style>
+        body {
+            background-color: #2c3e50;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding-top: 50px;
+            text-align: center;
+        }
+
+        .product-header {
+            font-size: 2.5em;
+            color: #1abc9c;
+            margin-bottom: 20px;
+        }
+
+        .product-info {
+            background-color: #34495e;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-info p {
+            font-size: 1.2em;
+            margin: 15px 0;
+        }
+
+        .button-group {
+            margin-top: 30px;
+        }
+
+        .button-group a {
+            background-color: #1abc9c;
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-size: 1.1em;
+            transition: background-color 0.3s;
+        }
+
+        .button-group a:hover {
+            background-color: #16a085;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h3 class="product-header">@Model.ProductName</h3>
+        <div class="product-info">
+            <p><strong>Price:</strong> $@Model.Price</p>
+        </div>
+        <div class="button-group">
+            <a href="/Product">Back to Products</a>
+        </div>
+    </div>
+
+</body>
+</html>
