@@ -22,6 +22,7 @@ namespace StoreApp.Controllers
         }
 
         [HttpPost]
+        [HttpPost]
         public async Task<IActionResult> AddToCart(int productId)
         {
             var product = await _context.Products.FindAsync(productId);
@@ -30,13 +31,13 @@ namespace StoreApp.Controllers
                 return NotFound();
             }
 
-            // Kullanıcının sepetine yeni ürün ekleyin ya da mevcut ürünün miktarını arttırın
+            var userId = User.Identity.Name;  // Oturumdaki kullanıcıyı al
             var cartItem = await _context.CartItems
-                                          .FirstOrDefaultAsync(c => c.ProductID == productId);
+                                          .FirstOrDefaultAsync(c => c.ProductID == productId && c.UserID == userId);
 
             if (cartItem != null)
             {
-                // Eğer ürün zaten sepette varsa miktarını artır
+                // Eğer ürün zaten sepette varsa, miktarını artır
                 cartItem.Quantity++;
             }
             else
@@ -46,7 +47,8 @@ namespace StoreApp.Controllers
                 {
                     ProductID = productId,
                     Price = product.Price,
-                    Quantity = 1
+                    Quantity = 1,
+                    UserID = userId  // Sepet öğesini kullanıcıya bağla
                 };
                 _context.CartItems.Add(cartItem);
             }
@@ -54,6 +56,7 @@ namespace StoreApp.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
+
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
@@ -72,10 +75,12 @@ namespace StoreApp.Controllers
         }
         // Sepetten ürün çıkar
         [HttpPost]
+        [HttpPost]
         public async Task<IActionResult> RemoveFromCart(int productId)
         {
+            var userId = User.Identity.Name;  // Oturumdaki kullanıcıyı al
             var cartItem = await _context.CartItems
-                                          .FirstOrDefaultAsync(c => c.ProductID == productId);
+                                          .FirstOrDefaultAsync(c => c.ProductID == productId && c.UserID == userId);
 
             if (cartItem != null)
             {
@@ -88,18 +93,19 @@ namespace StoreApp.Controllers
         }
 
 
+
         // Sepet sayfası için ürünleri görüntüle
         public IActionResult ViewCart()
         {
-            var cartItems = _context.CartItems.Include(c => c.Product).ToList();
+            var userId = User.Identity.Name;  // Oturumdaki kullanıcıyı al
+            var cartItems = _context.CartItems
+                                     .Include(c => c.Product)
+                                     .Where(c => c.UserID == userId)  // Kullanıcıya özel sepeti al
+                                     .ToList();
+
             return View("Cart", cartItems);
         }
 
-        public IActionResult Get(int id)
-        {
-            Product product = _context.Products.First(p => p.ProductID.Equals(id));
-            return View(product);
-        }
 
 
         [HttpGet]
@@ -116,7 +122,7 @@ namespace StoreApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Product product)
         {
-           
+
             if (ModelState.IsValid)
             {
                 _context.Products.Add(product);

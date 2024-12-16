@@ -18,7 +18,8 @@ namespace webproje.Migrations.Repository
                         .Annotation("Sqlite:Autoincrement", true),
                     ProductID = table.Column<int>(type: "INTEGER", nullable: false),
                     Price = table.Column<decimal>(type: "TEXT", nullable: true),
-                    Quantity = table.Column<int>(type: "INTEGER", nullable: true)
+                    Quantity = table.Column<int>(type: "INTEGER", nullable: true),
+                    UserID = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -17,7 +17,7 @@ namespace webproje.Migrations.Repository
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
 
-            modelBuilder.Entity("StoreApp.Models.CartItem", b =>
+            modelBuilder.Entity("CartItem", b =>
                 {
                     b.Property<int>("CartItemID")
                         .ValueGeneratedOnAdd()
@@ -31,6 +31,10 @@ namespace webproje.Migrations.Repository
 
                     b.Property<int?>("Quantity")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("UserID")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("CartItemID");
 
@@ -88,7 +92,7 @@ namespace webproje.Migrations.Repository
                         });
                 });
 
-            modelBuilder.Entity("StoreApp.Models.CartItem", b =>
+            modelBuilder.Entity("CartItem", b =>
                 {
                     b.HasOne("StoreApp.Models.Product", "Product")
                         .WithMany()
