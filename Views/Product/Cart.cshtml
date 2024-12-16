@@ -1,126 +1,87 @@
-@model List<StoreApp.Models.CartItem>
+@model List<CartItem>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Cart</title>
-    <style>
-        body {
-            background-color: #2c3e50;
-            color: white;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
 
-        .navbar {
-            background-color: #1abc9c;
-            padding: 1em;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+<style>
+    .cart-items {
+        padding: 2em;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            margin: 0 1em;
-        }
+    .cart-item {
+        background-color: #34495e;
+        border-radius: 10px;
+        padding: 1.5em;
+        margin: 1em;
+        width: 250px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        text-align: center;
+    }
 
-        .navbar a:hover {
-            color: #ecf0f1;
-        }
+    .cart-item h3 {
+        color: #1abc9c;
+        font-size: 1.5em;
+    }
 
-        .cart-items {
-            padding: 2em;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+    .cart-item p {
+        color: white;
+        font-size: 1.2em;
+    }
 
-        .cart-item {
-            background-color: #34495e;
-            border-radius: 10px;
-            padding: 1.5em;
-            margin: 1em;
-            width: 250px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            text-align: center;
-        }
+    .remove-btn {
+        background-color: #e74c3c;
+        color: white;
+        font-size: 1em;
+        padding: 0.5em 1em;
+        border-radius: 5px;
+        display: inline-block;
+        margin-top: 1em;
+    }
 
-        .cart-item h3 {
-            color: #1abc9c;
-            font-size: 1.5em;
-        }
+    .remove-btn:hover {
+        background-color: #c0392b;
+    }
 
-        .cart-item p {
-            color: white;
-            font-size: 1.2em;
-        }
+    .back-to-products-btn {
+        background-color: #1abc9c;
+        color: white;
+        font-size: 1em;
+        padding: 0.8em 1.5em;
+        border-radius: 5px;
+        margin-top: 2em;
+        text-decoration: none;
+    }
 
-        .remove-btn {
-            background-color: #e74c3c;
-            color: white;
-            font-size: 1em;
-            padding: 0.5em 1em;
-            border-radius: 5px;
-            display: inline-block;
-            margin-top: 1em;
-        }
+    .back-to-products-btn:hover {
+        background-color: #16a085;
+    }
+</style>
 
-        .remove-btn:hover {
-            background-color: #c0392b;
-        }
 
-        .back-to-products-btn {
-            background-color: #1abc9c;
-            color: white;
-            font-size: 1em;
-            padding: 0.8em 1.5em;
-            border-radius: 5px;
-            margin-top: 2em;
-            text-decoration: none;
-        }
-
-        .back-to-products-btn:hover {
-            background-color: #16a085;
-        }
-    </style>
-</head>
-<body>
-    <div class="navbar">
-        <a href="/">Home</a>
-        <div>Your Cart</div>
-    </div>
-
-    <div class="cart-items">
-        @if (Model != null && Model.Any())
+<div class="cart-items">
+    @if (Model != null && Model.Any())
+    {
+        @foreach (var item in Model)
         {
-            @foreach (var item in Model)
-            {
-                <div class="cart-item">
-                    <h3>@item.Product.ProductName</h3>
-                    <p>Price: @item.Product.Price</p>
-                    <p>Quantity: @item.Quantity</p>
+            <div class="cart-item">
+                <h3>@item.Product.ProductName</h3>
+                <p>Price: @item.Product.Price</p>
+                <p>Quantity: @item.Quantity</p>
 
-                    <!-- Sepetten kaldırma butonu -->
-                    <form method="post" action="/Product/RemoveFromCart">
-                        <input type="hidden" name="productId" value="@item.ProductID" />
-                        <button type="submit" class="remove-btn">Remove</button>
-                    </form>
-                </div>
-            }
+                <!-- Sepetten kaldırma butonu -->
+                <form method="post" action="/Product/RemoveFromCart">
+                    <input type="hidden" name="productId" value="@item.ProductID" />
+                    <button type="submit" class="remove-btn">Remove</button>
+                </form>
+            </div>
         }
-        else
-        {
-            <p>Your cart is empty.</p>
-        }
+    }
+    else
+    {
+        <p>Your cart is empty.</p>
+    }
 
-        <!-- Sepete geri dönmek için buton -->
-        <a href="/Product/Index" class="back-to-products-btn">Back to Products</a>
-    </div>
-</body>
-</html>
+    <!-- Sepete geri dönmek için buton -->
+    <a href="/Product/Index" class="back-to-products-btn">Back to Products</a>
+</div>

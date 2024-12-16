@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StoreApp.Models;
@@ -54,6 +55,7 @@ namespace StoreApp.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Delete(int productId)
         {
@@ -99,16 +101,22 @@ namespace StoreApp.Controllers
             return View(product);
         }
 
+
         [HttpGet]
         public IActionResult Create()
         {
+
+            ViewBag.ErrorMessage = "You are not authorized to access this page.";
+
             return View();
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Product product)
         {
+           
             if (ModelState.IsValid)
             {
                 _context.Products.Add(product);

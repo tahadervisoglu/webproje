@@ -67,7 +67,7 @@ public class AccountController : Controller
     {
         return View();
     }
-
+    
     [HttpPost]
     public async Task<IActionResult> Register(RegisterViewModel model)
     {

@@ -2706,11 +2706,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Aspire\\Desktop\\webodev\\webproje\\webproje\\webproje.csproj",
+      "projectUniqueName": "C:\\Users\\Aspire\\Desktop\\webodev\\webproje\\webproje-1\\webproje.csproj",
       "projectName": "webproje",
-      "projectPath": "C:\\Users\\Aspire\\Desktop\\webodev\\webproje\\webproje\\webproje.csproj",
+      "projectPath": "C:\\Users\\Aspire\\Desktop\\webodev\\webproje\\webproje-1\\webproje.csproj",
       "packagesPath": "C:\\Users\\Aspire\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Aspire\\Desktop\\webodev\\webproje\\webproje\\obj\\",
+      "outputPath": "C:\\Users\\Aspire\\Desktop\\webodev\\webproje\\webproje-1\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Aspire\\AppData\\Roaming\\NuGet\\NuGet.Config",
