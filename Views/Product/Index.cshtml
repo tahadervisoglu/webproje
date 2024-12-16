@@ -1,142 +1,145 @@
 @model List<Product>
 
 
-    <style>
-        
-
-        .error-message {
-            color: #e74c3c;
-            font-weight: bold;
-            margin-bottom: 1em; 
-        }    
-
-        
-
-        .container {
-            padding: 2em;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .product-card {
-            background-color: #34495e;
-            border-radius: 10px;
-            padding: 1.5em;
-            margin: 1em;
-            width: 250px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            text-align: center;
-        }
-
-        .product-card h3 {
-            color: #1abc9c;
-            font-size: 1.5em;
-        }
-
-        .product-card p {
-            color: white;
-            font-size: 1.2em;
-        }
-
-        .product-card a {
-            color: #1abc9c;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .product-card a:hover {
-            color: #16a085;
-        }
-
-        .product-count {
-            font-size: 1.5em;
-            color: #1abc9c;
-            text-align: center;
-            margin-bottom: 1em;
-        }
-
-        .add-product-btn {
-            background-color: #1abc9c;
-            color: white;
-            text-decoration: none;
-            font-size: 1em;
-            padding: 0.8em 1.5em;
-            border-radius: 5px;
-            display: block;
-            margin: 2em auto;
-            width: max-content;
-        }
-
-        .add-product-btn:hover {
-            background-color: #16a085;
-        }
-
-        .add-to-cart-btn {
-            background-color: #3498db;
-            color: white;
-            text-decoration: none;
-            font-size: 1em;
-            padding: 0.5em 1em;
-            border-radius: 5px;
-            margin-top: 1em;
-            display: inline-block;
-        }
-
-        .add-to-cart-btn:hover {
-            background-color: #2980b9;
-        }
-
-        .delete-btn {
-            background-color: #e74c3c;
-            color: white;
-            text-decoration: none;
-            font-size: 1em;
-            padding: 0.5em 1em;
-            border-radius: 5px;
-            margin-top: 1em;
-            display: inline-block;
-        }
-
-        .delete-btn:hover {
-            background-color: #c0392b;
-        }
-    </style>
-
-    <div class="product-count">
-        <p>Total Products: @ViewBag.ProductCount</p>
-    </div>
-    
-    <a href="/Product/Create" class="add-product-btn">Add Product</a>
-    @if (ViewBag.ErrorMessage != null)
-    {
-        <p class="error-message">@ViewBag.ErrorMessage</p>
+<style>
+    .error-message {
+        color: #e74c3c;
+        font-weight: bold;
+        margin-bottom: 1em;
     }
-    <a href="/Product/ViewCart" class="add-product-btn">Cart List</a>
 
-    <div class="container">
-        @foreach (var prd in Model)
-        {
-            <div class="product-card">
-                <h3>@prd.ProductName</h3>
-                <p>Price: @prd.Price</p>
-                <p>
-                    <a href="/Product/Get/@prd.ProductID">Get Details</a>
-                </p>
-                
-                <!-- Sepete Ekle Butonu -->
-                <form method="post" action="/Product/AddToCart">
-                    <input type="hidden" name="productId" value="@prd.ProductID" />
-                    <button type="submit" class="add-to-cart-btn">Add to Cart</button>
-                </form>
 
-                <!-- Ürünü Sil Butonu -->
-                <form method="post" action="/Product/Delete">
-                    <input type="hidden" name="productId" value="@prd.ProductID" />
+
+    .container {
+        padding: 2em;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .product-card {
+        background-color: #34495e;
+        border-radius: 10px;
+        padding: 1.5em;
+        margin: 1em;
+        width: 250px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        text-align: center;
+    }
+
+    .product-card h3 {
+        color: #1abc9c;
+        font-size: 1.5em;
+    }
+
+    .product-card p {
+        color: white;
+        font-size: 1.2em;
+    }
+
+    .product-card a {
+        color: #1abc9c;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .product-card a:hover {
+        color: #16a085;
+    }
+
+    .product-count {
+        font-size: 1.5em;
+        color: #1abc9c;
+        text-align: center;
+        margin-bottom: 1em;
+    }
+
+    .add-product-btn {
+        background-color: #1abc9c;
+        color: white;
+        text-decoration: none;
+        font-size: 1em;
+        padding: 0.8em 1.5em;
+        border-radius: 5px;
+        display: block;
+        margin: 2em auto;
+        width: max-content;
+    }
+
+    .add-product-btn:hover {
+        background-color: #16a085;
+    }
+
+    .add-to-cart-btn {
+        background-color: #3498db;
+        color: white;
+        text-decoration: none;
+        font-size: 1em;
+        padding: 0.5em 1em;
+        border-radius: 5px;
+        margin-top: 1em;
+        display: inline-block;
+    }
+
+    .add-to-cart-btn:hover {
+        background-color: #2980b9;
+    }
+
+    .delete-btn {
+        background-color: #e74c3c;
+        color: white;
+        text-decoration: none;
+        font-size: 1em;
+        padding: 0.5em 1em;
+        border-radius: 5px;
+        margin-top: 1em;
+        display: inline-block;
+    }
+
+    .delete-btn:hover {
+        background-color: #c0392b;
+    }
+</style>
+
+
+<div class="product-count">
+    <p>Total Products: @ViewBag.ProductCount</p>
+</div>
+
+@if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+{
+    <a href="/Product/Create" class="add-product-btn">Add Product</a>
+}
+@if (ViewBag.ErrorMessage != null)
+{
+    <p class="error-message">@ViewBag.ErrorMessage</p>
+}
+<a href="/Product/ViewCart" class="add-product-btn">Cart List</a>
+
+<div class="container">
+    @foreach (var prd in Model)
+    {
+        <div class="product-card">
+            <h3>@prd.ProductName</h3>
+            <p>Price: @prd.Price</p>
+            <p>
+                <a href="/Product/Get/@prd.ProductID">Get Details</a>
+            </p>
+
+            <!-- Sepete Ekle Butonu -->
+            <form method="post" action="/Product/AddToCart">
+                <input type="hidden" name="productId" value="@prd.ProductID" />
+                <button type="submit" class="add-to-cart-btn">Add to Cart</button>
+            </form>
+
+            <!-- Ürünü Sil Butonu -->
+            <form method="post" action="/Product/Delete">
+                <input type="hidden" name="productId" value="@prd.ProductID" />
+                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                {
                     <button type="submit" class="delete-btn">Delete</button>
-                </form>
-            </div>
-        }
-    </div>
-
-
+                    }
+            </form>
+        </div>
+    }
+</div>
