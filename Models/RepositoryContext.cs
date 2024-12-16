@@ -5,6 +5,7 @@ namespace StoreApp.Models
     public class RepositoryContext : DbContext
     {
         public DbSet<Product> Products { get; set; }  // Burada parantez eksikti
+        public DbSet<CartItem> CartItems { get; set; } // Sepet ürünleri için yeni DbSet
 
         public RepositoryContext(DbContextOptions<RepositoryContext> options)
             : base(options)

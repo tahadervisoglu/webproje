@@ -120,17 +120,7 @@
 <div class="form-container">
     <h2>Login</h2>
 
-    @if (!ViewData.ModelState.IsValid)
-    {
-        <div class="alert">
-            <ul>
-                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-                {
-                    <li>@error.ErrorMessage</li>
-                }
-            </ul>
-        </div>
-    }
+    
 
     <form asp-action="Login" method="post">
         <div class="form-group">
