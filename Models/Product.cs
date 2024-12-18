@@ -4,6 +4,8 @@ namespace StoreApp.Models
     {
         public int ProductID {get;set;}
         public String? ProductName {get;set;} = String.Empty;
+        public String? ProductModel {get;set;} = String.Empty;
+        public String? Description {get;set;} = String.Empty;
         public decimal Price {get;set;}
     }
 }

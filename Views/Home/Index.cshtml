@@ -1,6 +1,5 @@
 <style>
-    
-
+    /* Welcome style */
     .welcome {
         text-align: center;
         padding: 2em 0;
@@ -17,6 +16,7 @@
         margin-bottom: 1.5em;
     }
 
+    /* Button group style */
     .button-group {
         text-align: center;
     }
@@ -35,16 +35,46 @@
     .button-group a:hover {
         background-color: #16a085;
     }
+
+    /* Patates link style */
+    .patates {
+        text-align: center;
+        padding: 2em 0;
+    }
+
+    .patates a {
+        font-size: 3em;
+        color: #0044ff;
+        /* Mavi renk */
+        margin-bottom: 0.5em;
+        text-decoration: none;
+        /* Link alt çizgisini kaldırmak için */
+        font-weight: bold;
+        /* Yazıyı kalın yapmak için */
+    }
+
+    .patates a:hover {
+        color: #1abc9c;
+        /* Hover efekti: yeşil renk */
+    }
 </style>
 
-<div class="welcome">
-    <h1>Hoş Geldiniz!</h1>
-    <p>MOTOMARKA'ya hoş geldiniz. Motorsiklet dünyasının en iyi ürünleri için hemen keşfe çıkın.</p>
-</div>
+@if (User.Identity.IsAuthenticated && User.IsInRole("User"))
+{
+    <div class="patates">
+        <a href="/Product/Index">Click to view products.</a>
+    </div>
+}
+else
+{
+    <div class="welcome">
+        <h1>Welcome!</h1>
+        <p>"Welcome to MOTOMARKA. Explore now for the best products in the world of motorcycles."</p>
+    </div>
 
-<div class="button-group">
-
-    <a asp-controller="Home" asp-action="About">Hakkında</a>
-    <a asp-controller="Account" asp-action="Register">kayıt ol</a>
-    <a asp-controller="Account" asp-action="Login">giriş yap</a>
-</div>
+    <div class="button-group">
+        <a asp-controller="Home" asp-action="About">About</a>
+        <a asp-controller="Account" asp-action="Register">Register</a>
+        <a asp-controller="Account" asp-action="Login">Log In</a>
+    </div>
+}

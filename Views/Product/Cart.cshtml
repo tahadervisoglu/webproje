@@ -66,7 +66,7 @@
         {
             <div class="cart-item">
                 <h3>@item.Product.ProductName</h3>
-                <p>Price: @item.Product.Price</p>
+                <p>Price: $@item.Product.Price</p>
                 <p>Quantity: @item.Quantity</p>
 
                 <!-- Sepetten kaldırma butonu -->
@@ -76,6 +76,12 @@
                 </form>
             </div>
         }
+
+        <!-- Toplam Fiyat -->
+        <div class="cart-item">
+            <h3>Total Price:</h3>
+            <p style="font-size: 1.5em; font-weight: bold;">$@ViewBag.TotalPrice</p>
+        </div>
     }
     else
     {
@@ -85,3 +91,4 @@
     <!-- Sepete geri dönmek için buton -->
     <a href="/Product/Index" class="back-to-products-btn">Back to Products</a>
 </div>
+

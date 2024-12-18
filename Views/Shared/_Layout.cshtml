@@ -1,48 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewData["Title"]</title>
     <style>
+        /* Genel Stil */
         body {
-            background-color: #2c3e50; /* Koyu motorsiklet teması */
+            background-color: #2c3e50;
+            /* Koyu motorsiklet teması */
             color: white;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
             line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
+        /* Navbar Stili */
         .navbar {
-            background-color: #1abc9c;
-            padding: 1em;
+            background-color: #333;
+            /* Daha koyu siyah arka plan */
+            padding: 1.2em 2em;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* Yumuşak gölge efekti */
         }
 
         .navbar a {
             color: white;
             text-decoration: none;
-            font-weight: bold;
-            margin: 0 1em;
+            font-weight: 500;
+            margin: 0 1.5em;
+            font-size: 1.1em;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
         }
 
         .navbar a:hover {
-            color: #ecf0f1;
+            color: #1abc9c;
+            /* Yeşil hover rengi */
+            transform: scale(1.1);
+            /* Hover'da küçük animasyon */
+        }
+
+        /* Ana İçerik Alanı */
+        .container {
+            flex-grow: 1;
+            padding: 2em;
+            transition: background-color 0.3s ease;
+        }
+
+        .container:hover {
+            background-color: #34495e;
+            /* Hoverda arka plan değişikliği */
+        }
+
+        /* Footer Stili */
+        .footer {
+            background-color: #333;
+            /* Koyu siyah */
+            color: white;
+            text-align: center;
+            padding: 1.5em 0;
+            font-size: 0.9em;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        .footer:hover {
+            background-color: #1abc9c;
+            /* Hover'da yeşil arka plan */
         }
     </style>
-    <div class="navbar">
-        <a href="/Home/Index">Çıkış</a>
-        <a href="/Product/Index">Products</a>
-        <!-- Diğer menü linkleri eklenebilir -->
-    </div>
 </head>
-<body>
 
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <a asp-controller="Account" asp-action="Logout">Exit</a>
+        <a href="/">Home</a>
+        <a href="/Product/Index">Products</a>
+    </div>
+
+    <!-- Ana İçerik -->
     <div class="container">
-        @RenderBody()  <!-- Burada sayfanın içeriği render edilecek -->
+        @RenderBody() <!-- Sayfa içeriği buraya render edilir -->
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2024 - MotoMarka</p>
     </div>
 </body>
+
 </html>

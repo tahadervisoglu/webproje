@@ -24,34 +24,35 @@ public class AccountController : Controller
 
     [HttpPost]
     public async Task<IActionResult> Login(LoginViewModel model, string ReturnUrl)
-{
-    // ReturnUrl keeps the url of the action we are coming from, after login action, we want to return where we came from
-    var user = await _userManager.FindByNameAsync(model.UserName);
-
-    if (user != null)
     {
-        var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
+        // ReturnUrl keeps the URL of the action we are coming from, after login action, we want to return to that URL
+        var user = await _userManager.FindByNameAsync(model.UserName);
 
-        if (result.Succeeded)
+        if (user != null)
         {
-            
-            return RedirectToAction("Index", "Product");
+            var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
+
+            if (result.Succeeded)
+            {
+                // Başarılı giriş sonrası Product sayfasına yönlendiriyoruz
+                return RedirectToAction("Index", "Product");
+            }
+            else
+            {
+                // Giriş başarısızsa, TempData ile hata mesajını gönderiyoruz
+                TempData["ErrorMessage"] = "Giriş başarısız! Kullanıcı adı veya şifre yanlış.";
+            }
         }
         else
         {
-            // If login fails, this will show the error message
-            ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+            // Kullanıcı bulunamadıysa, TempData ile hata mesajını gönderiyoruz
+            TempData["ErrorMessage"] = "Giriş başarısız! Kullanıcı adı veya şifre yanlış.";
         }
-    }
-    else
-    {
-        // If the user is not found, this will show the error message
-        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+
+        // View'da hata mesajını göstermek için tekrar login formunu döndürüyoruz
+        return View(model);
     }
 
-    // This will return the view to the user with validation errors
-    return View(model); // Display the model with validation error messages
-}
 
     public async Task<IActionResult> Logout()
     {
@@ -65,7 +66,7 @@ public class AccountController : Controller
     {
         return View();
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> Register(RegisterViewModel model)
     {

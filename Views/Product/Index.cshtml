@@ -1,7 +1,47 @@
 @model List<Product>
 
+<!-- Product/Index.cshtml -->
+
+@{
+    var successMessage = TempData["SuccessMessage"];
+}
+
+@if (successMessage != null)
+{
+    <div id="successMessage" class="alert alert-success">
+        @successMessage
+    </div>
+}
+
+
+<!-- Ürünler burada listelenir -->
 
 <style>
+.alert {
+        background-color: #1abc9c; /* Yeşil renk */
+        color: white;
+        padding: 1em;
+        border-radius: 5px;
+        font-size: 1.2em;
+        position: fixed; /* Sabit konumlandırma */
+        bottom: 20px; /* Alt kısımdan 20px mesafe */
+        right: 20px; /* Sağ kısımdan 20px mesafe */
+        width: auto;
+        max-width: 300px; /* Genişliği sınırlayalım */
+        text-align: center;
+        opacity: 1;
+        visibility: visible;
+        transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+        z-index: 1000; /* Diğer içeriklerin üstünde görünsün diye */
+    }
+
+    /* Eğer mesaj kaybolursa */
+    .alert.hidden {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+
     .error-message {
         color: #e74c3c;
         font-weight: bold;
@@ -114,32 +154,55 @@
 {
     <p class="error-message">@ViewBag.ErrorMessage</p>
 }
-<a href="/Product/ViewCart" class="add-product-btn">Cart List</a>
-
+@if (User.Identity.IsAuthenticated && User.IsInRole("User"))
+{
+    <a href="/Product/ViewCart" class="add-product-btn">Cart List</a>
+}
 <div class="container">
     @foreach (var prd in Model)
     {
         <div class="product-card">
             <h3>@prd.ProductName</h3>
             <p>Price: @prd.Price</p>
-            <p>
-                <a href="/Product/Get/@prd.ProductID">Get Details</a>
-            </p>
+            <p>Model: @prd.ProductModel</p>
+            <p>Description: @prd.Description</p>
+            
 
             <!-- Sepete Ekle Butonu -->
+            @if (User.Identity.IsAuthenticated && User.IsInRole("User"))
+{
+
             <form method="post" action="/Product/AddToCart">
                 <input type="hidden" name="productId" value="@prd.ProductID" />
                 <button type="submit" class="add-to-cart-btn">Add to Cart</button>
             </form>
-
+}
+else
+{
+    <p class="login-warning">Please log in to add products to the cart.</p>
+}
             <!-- Ürünü Sil Butonu -->
             <form method="post" action="/Product/Delete">
                 <input type="hidden" name="productId" value="@prd.ProductID" />
                 @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                 {
                     <button type="submit" class="delete-btn">Delete</button>
-                    }
+                }
             </form>
         </div>
     }
 </div>
+<script>
+  
+    window.onload = function() {
+        var successMessage = document.getElementById('successMessage');
+        if (successMessage) {
+            setTimeout(function() {
+                successMessage.style.opacity = 0; // Mesajı şeffaf yap
+                setTimeout(function() {
+                    successMessage.style.display = 'none'; // Mesajı gizle
+                }, 500); // opacity geçişinin tamamlanması için bekleme süresi (0.5s)
+            }, 2000); // Mesaj 2 saniye sonra kaybolmaya başlar
+        }
+    }
+</script>

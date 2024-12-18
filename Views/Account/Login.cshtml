@@ -1,8 +1,6 @@
-
 @model LoginViewModel
 
 <style>
-
     .form-container {
         max-width: 600px;
         margin: auto;
@@ -63,7 +61,8 @@
         border-radius: 5px;
     }
 
-    .navbar a, .form-group {
+    .navbar a,
+    .form-group {
         color: white;
     }
 
@@ -88,7 +87,7 @@
 <div class="form-container">
     <h2>Login</h2>
 
-    
+
 
     <form asp-action="Login" method="post">
         <div class="form-group">
@@ -105,6 +104,13 @@
 
         <button type="submit" class="btn">Login</button>
     </form>
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div id="errorMessage" class="alert">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
 
     <div class="register-link">
         <a href="/Account/Register" class="btn">Click to register</a>

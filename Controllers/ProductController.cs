@@ -21,7 +21,7 @@ namespace StoreApp.Controllers
             return View(model);
         }
 
-        [HttpPost]
+      
         [HttpPost]
         public async Task<IActionResult> AddToCart(int productId)
         {
@@ -52,13 +52,12 @@ namespace StoreApp.Controllers
                 };
                 _context.CartItems.Add(cartItem);
             }
-
+            TempData["SuccessMessage"] = "Ürün sepete eklendi!";
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Product");
         }
 
 
-        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Delete(int productId)
         {
@@ -74,13 +73,14 @@ namespace StoreApp.Controllers
             return RedirectToAction("Index");
         }
         // Sepetten ürün çıkar
+
         [HttpPost]
-        [HttpPost]
+
         public async Task<IActionResult> RemoveFromCart(int productId)
         {
-            var userId = User.Identity.Name;  // Oturumdaki kullanıcıyı al
+            var userId = User.Identity.Name; // Oturumdaki kullanıcıyı al
             var cartItem = await _context.CartItems
-                                          .FirstOrDefaultAsync(c => c.ProductID == productId && c.UserID == userId);
+                                         .FirstOrDefaultAsync(c => c.UserID == userId && c.ProductID == productId);
 
             if (cartItem != null)
             {
@@ -88,23 +88,35 @@ namespace StoreApp.Controllers
                 await _context.SaveChangesAsync();
             }
 
-            // Sepet sayfasına yönlendirme
-            return RedirectToAction("ViewCart");
+            // Sepetteki yeni ürünleri ve toplam fiyatı al
+            var cartItems = _context.CartItems.Include(c => c.Product)
+                                              .Where(c => c.UserID == userId)
+                                              .ToList();
+
+            var totalPrice = cartItems.Sum(c => c.Product.Price * c.Quantity);
+            ViewBag.TotalPrice = totalPrice;
+
+            // Cart sayfasına geri dön
+            return View("Cart", cartItems);
         }
+
 
 
 
         // Sepet sayfası için ürünleri görüntüle
         public IActionResult ViewCart()
         {
-            var userId = User.Identity.Name;  // Oturumdaki kullanıcıyı al
+            var userId = User.Identity.Name; // Oturumdaki kullanıcıyı al
             var cartItems = _context.CartItems
                                      .Include(c => c.Product)
-                                     .Where(c => c.UserID == userId)  // Kullanıcıya özel sepeti al
+                                     .Where(c => c.UserID == userId) // Kullanıcıya özel sepeti al
                                      .ToList();
+
+            ViewBag.TotalPrice = cartItems.Sum(c => c.Product.Price * c.Quantity);
 
             return View("Cart", cartItems);
         }
+
 
 
 
@@ -131,6 +143,7 @@ namespace StoreApp.Controllers
             }
             return View(product);
         }
+
     }
 
 }
