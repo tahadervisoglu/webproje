@@ -2,28 +2,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace StoreApp.Models
 {
+    // Bu sınıf, Entity Framework Core kullanarak veritabanı bağlamını temsil eder.
     public class RepositoryContext : DbContext
     {
-        public DbSet<Product> Products { get; set; }  // Burada parantez eksikti
-        public DbSet<CartItem> CartItems { get; set; } // Sepet ürünleri için yeni DbSet
+        // Products tablosunu temsil eden DbSet. Veritabanında ürün verilerini tutar.
+        public DbSet<Product> Products { get; set; } 
 
+        // CartItems tablosunu temsil eden DbSet. Kullanıcıların sepetlerinde tuttuğu ürünleri yönetir.
+        public DbSet<CartItem> CartItems { get; set; } 
+
+        // Yapılandırıcı metot: RepositoryContext için DbContextOptions ayarlarını alır.
         public RepositoryContext(DbContextOptions<RepositoryContext> options)
             : base(options)
         {
-
-        }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Product>()
-            .HasData(
-                new Product() { ProductID = 1, ProductName = "Computer", Price = 17_000 },
-                new Product() { ProductID = 2, ProductName = "Keyboard", Price = 1_000 },
-                new Product() { ProductID = 3, ProductName = "Mouse", Price = 500 },
-                new Product() { ProductID = 4, ProductName = "Mointor", Price = 7_000 },
-                new Product() { ProductID = 5, ProductName = "Deck", Price = 1_500 }
-            );
+            // Base sınıf (DbContext) yapılandırmasını üstlenir.
         }
     }
 }

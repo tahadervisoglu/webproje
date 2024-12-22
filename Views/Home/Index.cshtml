@@ -59,7 +59,8 @@
     }
 </style>
 
-@if (User.Identity.IsAuthenticated && User.IsInRole("User"))
+@if (User.Identity.IsAuthenticated && (User.IsInRole("User") || User.IsInRole("Admin")))
+
 {
     <div class="patates">
         <a href="/Product/Index">Click to view products.</a>
